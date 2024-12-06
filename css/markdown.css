@@ -14,6 +14,7 @@
     margin: 1.5rem 0 1rem;
     color: var(--md-header, #2c3e50);
     line-height: 1.25;
+    scroll-margin-top: 1rem;
 }
 
 .mdrender h1 { font-size: 2em; }
@@ -79,6 +80,7 @@
     max-width: 100%;
     height: auto;
     margin: 1rem 0;
+    border-radius: 4px;
 }
 
 .mdrender hr {
@@ -87,10 +89,13 @@
     margin: 2rem 0;
 }
 
+/* Tables */
 .mdrender table {
     border-collapse: collapse;
     width: 100%;
     margin: 1rem 0;
+    overflow-x: auto;
+    display: block;
 }
 
 .mdrender th,
@@ -101,6 +106,74 @@
 
 .mdrender th {
     background: var(--md-code-bg, #f8f9fa);
+    font-weight: 600;
+}
+
+.mdrender tr:nth-child(even) {
+    background: var(--md-code-bg, #f8f9fa);
+}
+
+/* Task Lists */
+.mdrender .task-list-item {
+    list-style-type: none;
+    margin-left: -1.5rem;
+}
+
+.mdrender .task-list-item input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* Footnotes */
+.mdrender .footnotes {
+    margin-top: 2rem;
+    font-size: 0.9em;
+    color: var(--md-blockquote, #666);
+}
+
+.mdrender .footnotes hr {
+    margin: 1rem 0;
+}
+
+.mdrender .footnote-ref {
+    font-size: 0.8em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+.mdrender .footnote-backref {
+    font-size: 0.8em;
+    margin-left: 0.5rem;
+}
+
+/* Definition Lists */
+.mdrender dl {
+    margin: 1rem 0;
+}
+
+.mdrender dt {
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.mdrender dd {
+    margin-left: 2rem;
+    margin-top: 0.5rem;
+}
+
+/* Text Formatting */
+.mdrender mark {
+    background-color: #fff1a7;
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+}
+
+.mdrender del {
+    color: var(--md-blockquote, #666);
+}
+
+.mdrender sup,
+.mdrender sub {
+    font-size: 0.8em;
 }
 
 /* Dark theme support */
@@ -111,4 +184,13 @@
     --md-blockquote: #a0a0a0;
     --md-link: #60a5fa;
     --md-border: #404040;
+}
+
+[data-theme="dark"] .mdrender mark {
+    background-color: #665c1e;
+    color: #fff;
+}
+
+[data-theme="dark"] .mdrender tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.05);
 }

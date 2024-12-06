@@ -15,34 +15,63 @@
                     <h1>MDRender</h1>
                     <p>A simple markdown renderer</p>
                 </div>
-                <button id="theme-toggle" aria-label="Toggle dark mode">
-                    <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"/>
-                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                    </svg>
-                    <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                    </svg>
-                </button>
+                <div class="header-controls">
+                    <select id="example-select">
+                        <option value="">Choose an example...</option>
+                        <option value="basic">Basic Markdown</option>
+                        <option value="advanced">Advanced Features</option>
+                        <option value="tables">Tables Example</option>
+                        <option value="footnotes">Footnotes Example</option>
+                    </select>
+                    <button id="theme-toggle" aria-label="Toggle dark mode">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/>
+                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                </div>
             </header>
             
             <main>
                 <div class="editor-section">
-                    <h2>Markdown Input</h2>
+                    <div class="section-header">
+                        <h2>Markdown Input</h2>
+                        <button id="clear-input">Clear</button>
+                    </div>
                     <textarea id="markdown-input" placeholder="Enter your markdown here..."></textarea>
                 </div>
                 
                 <div class="preview-section">
-                    <h2>Preview</h2>
+                    <div class="section-header">
+                        <h2>Preview</h2>
+                        <div class="preview-controls">
+                            <button id="refresh-preview">Refresh</button>
+                            <button id="toggle-preview">Toggle Preview</button>
+                        </div>
+                    </div>
                     <div id="preview"></div>
                 </div>
                 
                 <div class="html-section">
-                    <h2>HTML Output</h2>
-                    <button id="copy-html">Copy HTML</button>
-                    <code id="html-output"></code>
+                    <div class="section-header">
+                        <h2>HTML Output</h2>
+                        <div class="html-controls">
+                            <button id="copy-html">Copy HTML</button>
+                            <button id="format-html">Format HTML</button>
+                        </div>
+                    </div>
+                    <div id="output-container">
+                        <code id="html-output"></code>
+                    </div>
                 </div>
             </main>
+
+            <footer>
+                <p>Need help? Check out our <a href="https://github.com/tyuXX/MDRender" target="_blank">documentation</a></p>
+            </footer>
         </div>
         
         <script src="js/renderer.js"></script>
