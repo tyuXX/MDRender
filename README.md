@@ -24,11 +24,9 @@ A lightweight, customizable markdown renderer for web applications. MDRender con
 
 ### 1. Include the Required Files
 
-Copy `renderer.js` and `markdown.css` to your project and include them in your HTML:
-
 ```html
-<link rel="stylesheet" href="path/to/markdown.css">
-<script src="path/to/renderer.js"></script>
+<link rel="stylesheet" href="https://raw.githubusercontent.com/tyuXX/MDRender/refs/heads/main/css/markdown.css">
+<script src="https://raw.githubusercontent.com/tyuXX/MDRender/refs/heads/main/js/renderer.js"></script>
 ```
 
 ### 2. Initialize the Renderer
