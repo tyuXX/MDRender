@@ -327,16 +327,16 @@ ___
 :coffee: :pizza: :cake: :apple:
 
 ## 12. Special Characters & Escaping
-\\* Escaped asterisk
-\\_ Escaped underscore
-\\# Escaped hash
-\\[ Escaped bracket
-\\] Escaped bracket
-\\ Escaped backtick (Cannot show here, as it would be a JS syntax error)
-\\( Escaped parenthesis
-\\) Escaped parenthesis
-\\~ Escaped tilde
-\\: Escaped colon
+\* Escaped asterisk
+\_ Escaped underscore
+\# Escaped hash
+\[ Escaped bracket
+\] Escaped bracket
+\` Escaped backtick
+\( Escaped parenthesis
+\) Escaped parenthesis
+\~ Escaped tilde
+\: Escaped colon
 
 ## 13. HTML Support
 <div style="color: blue;">

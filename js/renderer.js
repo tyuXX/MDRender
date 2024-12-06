@@ -12,11 +12,11 @@ class MDRenderer {
             image: /!\[(.+?)\]\((.+?)(?:\s+"(.+?)")?\)/g,
             list: /^(\s*)[*-]\s(.+)$/gm,
             orderedList: /^(\s*)\d+\.\s(.+)$/gm,
-            blockquote: /^>\s(.+)$/gm,
+            blockquote: /^((?:\s*>+\s*)+)(.+)$/gm,
             horizontalRule: /^([-*_])\1{2,}$/gm,
             table: /^\|(.+)\|$/gm,
             tableDelimiter: /^\|(?:[-:]+[-| :]*)\|$/gm,
-            taskList: /^(\s*)-\s\[([ x])\]\s(.+)$/gm,
+            taskList: /^(\s*)-\s+\[([ x])\]\s+(.+)$/gm,
             superscript: /\^(.+?)\^/g,
             subscript: /~(.+?)~/g,
             highlight: /==(.+?)==/g,
@@ -56,12 +56,16 @@ class MDRenderer {
         // Convert code blocks first to prevent interference
         html = this.renderCodeBlocks(html);
         
+        // Process blockquotes first to handle nesting
+        html = this.renderBlockquotes(html);
+        
+        // Then process task lists
+        html = this.renderTaskLists(html);
+
         // Convert block elements
         html = this.renderHorizontalRules(html);
-        html = this.renderBlockquotes(html);
         html = this.renderHeadings(html);
         html = this.renderTables(html);
-        html = this.renderTaskLists(html);
         html = this.renderLists(html);
         html = this.renderOrderedLists(html);
         html = this.renderDefinitions(html);
@@ -186,7 +190,118 @@ class MDRenderer {
     }
 
     renderBlockquotes(text) {
-        return text.replace(this.rules.blockquote, '<blockquote>$1</blockquote>');
+        const lines = text.split('\n');
+        const result = [];
+        let inBlockquote = false;
+        let currentContent = [];
+        let currentLevel = 0;
+
+        function processBlockquote(content, level) {
+            if (content.length === 0) return '';
+            const innerContent = content.join('\n').trim();
+            let html = innerContent;
+            for (let i = 0; i < level; i++) {
+                html = `<blockquote>${html}</blockquote>`;
+            }
+            return html;
+        }
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const match = line.match(/^(>+)?\s*(.*)$/);
+            
+            if (match) {
+                const [, quotes, content] = match;
+                const level = quotes ? quotes.length : 0;
+
+                if (level > 0) {
+                    if (!inBlockquote) {
+                        inBlockquote = true;
+                        currentLevel = level;
+                    }
+
+                    if (level !== currentLevel) {
+                        // Process previous blockquote
+                        result.push(processBlockquote(currentContent, currentLevel));
+                        currentContent = [];
+                        currentLevel = level;
+                    }
+
+                    currentContent.push(content.trim());
+                } else {
+                    if (inBlockquote) {
+                        // End of blockquote
+                        result.push(processBlockquote(currentContent, currentLevel));
+                        currentContent = [];
+                        inBlockquote = false;
+                    }
+                    result.push(line);
+                }
+            }
+        }
+
+        // Process any remaining blockquote
+        if (inBlockquote && currentContent.length > 0) {
+            result.push(processBlockquote(currentContent, currentLevel));
+        }
+
+        return result.join('\n');
+    }
+
+    renderTaskLists(text) {
+        const processedLines = [];
+        const lines = text.split('\n');
+        let currentList = null;
+        let currentIndent = 0;
+        
+        for (let line of lines) {
+            const taskMatch = line.match(/^(\s*)-\s+\[([ x])\]\s+(.+)$/);
+            
+            if (taskMatch) {
+                const [, indent, checked, content] = taskMatch;
+                const indentLevel = indent.length;
+                
+                const checkbox = `<input type="checkbox" class="task-list-item-checkbox" ${checked === 'x' ? 'checked' : ''} disabled>`;
+                const listItem = `<li class="task-list-item">${checkbox}<span class="task-list-item-text">${content}</span></li>`;
+                
+                if (currentList === null) {
+                    // Start a new list
+                    currentList = indentLevel;
+                    currentIndent = indentLevel;
+                    processedLines.push(`<ul class="task-list">${listItem}`);
+                } else if (indentLevel > currentIndent) {
+                    // Nested list
+                    processedLines.push(`<ul class="task-list">${listItem}`);
+                    currentIndent = indentLevel;
+                } else if (indentLevel < currentIndent) {
+                    // Close nested lists and start new item
+                    const closeLevels = Math.floor((currentIndent - indentLevel) / 2);
+                    processedLines.push('</ul>'.repeat(closeLevels));
+                    processedLines.push(listItem);
+                    currentIndent = indentLevel;
+                } else {
+                    // Same level
+                    processedLines.push(listItem);
+                }
+            } else {
+                if (currentList !== null) {
+                    // Close all open lists when encountering non-task-list content
+                    const closeLevels = Math.floor(currentIndent / 2) + 1;
+                    processedLines.push('</ul>'.repeat(closeLevels));
+                    currentList = null;
+                    currentIndent = 0;
+                }
+                processedLines.push(line);
+            }
+        }
+        
+        // Close any remaining open lists
+        if (currentList !== null) {
+            const closeLevels = Math.floor(currentIndent / 2) + 1;
+            processedLines.push('</ul>'.repeat(closeLevels));
+        }
+        
+        return processedLines.join('\n');
     }
 
     renderHorizontalRules(text) {
@@ -255,13 +370,6 @@ class MDRenderer {
         }
         
         return newLines.join('\n');
-    }
-
-    renderTaskLists(text) {
-        return text.replace(this.rules.taskList, (match, indent, checked, content) => {
-            const checkbox = `<input type="checkbox" ${checked === 'x' ? 'checked' : ''} disabled>`;
-            return `${indent}<li class="task-list-item">${checkbox} ${content}</li>`;
-        });
     }
 
     renderSuperscript(text) {
