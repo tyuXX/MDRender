@@ -1,0 +1,114 @@
+/* MDRender Markdown Styles */
+.mdrender {
+    color: var(--md-text, #333);
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.mdrender h1,
+.mdrender h2,
+.mdrender h3,
+.mdrender h4,
+.mdrender h5,
+.mdrender h6 {
+    margin: 1.5rem 0 1rem;
+    color: var(--md-header, #2c3e50);
+    line-height: 1.25;
+}
+
+.mdrender h1 { font-size: 2em; }
+.mdrender h2 { font-size: 1.5em; }
+.mdrender h3 { font-size: 1.25em; }
+.mdrender h4 { font-size: 1em; }
+.mdrender h5 { font-size: 0.875em; }
+.mdrender h6 { font-size: 0.85em; }
+
+.mdrender p {
+    margin-bottom: 1rem;
+}
+
+.mdrender code {
+    background: var(--md-code-bg, #f8f9fa);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
+
+.mdrender pre {
+    background: var(--md-code-bg, #f8f9fa);
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.mdrender pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.9em;
+}
+
+.mdrender blockquote {
+    border-left: 4px solid var(--md-header, #2c3e50);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--md-blockquote, #666);
+}
+
+.mdrender ul,
+.mdrender ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+}
+
+.mdrender li {
+    margin-bottom: 0.5rem;
+}
+
+.mdrender a {
+    color: var(--md-link, #3498db);
+    text-decoration: none;
+}
+
+.mdrender a:hover {
+    text-decoration: underline;
+}
+
+.mdrender img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+}
+
+.mdrender hr {
+    border: none;
+    border-top: 2px solid var(--md-border, #ddd);
+    margin: 2rem 0;
+}
+
+.mdrender table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.mdrender th,
+.mdrender td {
+    border: 1px solid var(--md-border, #ddd);
+    padding: 0.5rem;
+}
+
+.mdrender th {
+    background: var(--md-code-bg, #f8f9fa);
+}
+
+/* Dark theme support */
+[data-theme="dark"] .mdrender {
+    --md-text: #e0e0e0;
+    --md-header: #60a5fa;
+    --md-code-bg: #2d2d2d;
+    --md-blockquote: #a0a0a0;
+    --md-link: #60a5fa;
+    --md-border: #404040;
+}
