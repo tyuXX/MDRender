@@ -25,8 +25,8 @@ A lightweight, customizable markdown renderer for web applications. MDRender con
 ### 1. Include the Required Files
 
 ```html
-<link rel="stylesheet" href="https://raw.githubusercontent.com/tyuXX/MDRender/refs/heads/main/css/markdown.css">
-<script src="https://raw.githubusercontent.com/tyuXX/MDRender/refs/heads/main/js/renderer.js"></script>
+<link rel="stylesheet" href="https://tyuxx.github.io/MDRender/css/markdown.css">
+<script src="https://tyuxx.github.io/MDRender/css/markdown.css"></script>
 ```
 
 ### 2. Initialize the Renderer
